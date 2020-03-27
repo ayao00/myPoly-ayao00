@@ -6,15 +6,15 @@
 
 
 //polygon organization
-void add_polygons( struct matrix * polys,
+void add_polygons( struct matrix * polygons,
                    double x0, double y0, double z0,
                    double x1, double y1, double z1,
                    double x2, double y2, double z2);
-void draw_polygons( struct matrix * polys, screen s, color c);
+void draw_polygons( struct matrix * polygons, screen s, color c);
 
 //advanced shapes
 //3d shapes
-void add_box( struct matrix * edges,
+void add_box( struct matrix * polygons,
               double x, double y, double z,
               double width, double height, double depth );
 void add_sphere( struct matrix * edges,
