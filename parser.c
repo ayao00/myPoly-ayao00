@@ -120,7 +120,7 @@ void parse_file ( char * filename,
 
       sscanf(line, "%lf %lf %lf %lf",
        xvals, yvals, zvals, &r);
-      add_sphere( polygons, xvals[0], yvals[0], zvals[0], r, 10);
+      add_sphere( polygons, xvals[0], yvals[0], zvals[0], r, steps_3d);
     }//end of sphere
 
     else if ( strncmp(line, "torus", strlen(line)) == 0 ) {
@@ -232,7 +232,7 @@ void parse_file ( char * filename,
 
     else if ( strncmp(line, "apply", strlen(line)) == 0 ) {
       //printf("APPLY\t%s", line);
-      matrix_mult(transform,edges);
+      matrix_mult(transform, edges);
       matrix_mult(transform, polygons);
     }//end apply
 

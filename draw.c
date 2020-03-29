@@ -88,14 +88,15 @@ void add_box( struct matrix * polygons,
   add_polygon(polygons, x0,y0,z0, x1,y0,z0, x0,y0,z1);
   add_polygon(polygons, x0,y0,z1, x1,y0,z0, x1,y0,z1);
 
-  add_polygon(polygons, x0,y0,z1, x0,y1,z1, x1,y0,z1);
-  add_polygon(polygons, x1,y0,z1, x0,y1,z1, x1,y1,z1);
 
-  add_polygon(polygons, x1,y0,z1, x1,y1,z1, x1,y0,z0);
-  add_polygon(polygons, x1,y0,z0, x1,y1,z1, x1,y1,z0);
+  add_polygon(polygons, x0,y0,z1, x1,y0,z1, x0,y1,z1);
+  add_polygon(polygons, x1,y0,z1, x1,y1,z1, x0,y1,z1);
 
-  add_polygon(polygons, x0,y1,z0, x1,y1,z1, x0,y1,z1);
-  add_polygon(polygons, x0,y1,z0, x1,y1,z0, x1,y1,z1);
+  add_polygon(polygons, x1,y0,z1, x1,y0,z0, x1,y1,z1);
+  add_polygon(polygons, x1,y0,z0, x1,y1,z0, x1,y1,z1);
+
+  add_polygon(polygons, x0,y1,z0, x0,y1,z1, x1,y1,z1);
+  add_polygon(polygons, x0,y1,z0, x1,y1,z1, x1,y1,z0);
 }
 
 
@@ -129,17 +130,30 @@ void add_sphere( struct matrix * edges,
 
   steps++;
   for ( lat = latStart; lat < latStop; lat++ ) {
-    for ( longt = longStart; longt <= longStop; longt++ ) {
+    for ( longt = longStart; longt < longStop; longt++ ) {
       index = lat * (steps) + longt;
-           add_polygon( edges, points->m[0][index],
+      if(longt != steps-2){
+          add_polygon( edges, points->m[0][index],
                                 points->m[1][index],
                                 points->m[2][index],
-                                points->m[0][index+1 % points->lastcol],
-                                points->m[1][index+1 % points->lastcol],
-                                points->m[2][index+1 % points->lastcol],
-                                points->m[0][(index+steps+1) % points->lastcol],
+                                points->m[0][(index+1)% points->lastcol],
+                                points->m[1][(index+1)% points->lastcol],
+                                points->m[2][(index+1)% points->lastcol],
+                                points->m[0][(index+steps+1)% points->lastcol],
                                 points->m[1][(index+steps+1)% points->lastcol],
                                 points->m[2][(index+steps+1)% points->lastcol]);
+      }
+      if(longt != 0){
+          add_polygon( edges, points->m[0][index],
+                              points->m[1][index],
+                              points->m[2][index],
+                              points->m[0][(index+1+steps)% points->lastcol],
+                              points->m[1][(index+1+steps)% points->lastcol],
+                              points->m[2][(index+1+steps)% points->lastcol],
+                              points->m[0][(index+steps)% points->lastcol],
+                              points->m[1][(index+steps)% points->lastcol],
+                              points->m[2][(index+steps)% points->lastcol]);
+      }
     }
   }
   free_matrix(points);
@@ -223,12 +237,28 @@ void add_torus( struct matrix * edges,
     for ( longt = longStart; longt < longStop; longt++ ) {
 
       index = lat * steps + longt;
-      add_edge( edges, points->m[0][index],
-                points->m[1][index],
-                points->m[2][index],
-                points->m[0][index] + 1,
-                points->m[1][index] + 1,
-                points->m[2][index] + 1);
+      if(longt != steps-2){
+          add_polygon( edges, points->m[0][index],
+                                points->m[1][index],
+                                points->m[2][index],
+                                points->m[0][(index+1)% points->lastcol],
+                                points->m[1][(index+1)% points->lastcol],
+                                points->m[2][(index+1)% points->lastcol],
+                                points->m[0][(index+steps+1)% points->lastcol],
+                                points->m[1][(index+steps+1)% points->lastcol],
+                                points->m[2][(index+steps+1)% points->lastcol]);
+      }
+      if(longt != 0){
+          add_polygon( edges, points->m[0][index],
+                              points->m[1][index],
+                              points->m[2][index],
+                              points->m[0][(index+1+steps)% points->lastcol],
+                              points->m[1][(index+1+steps)% points->lastcol],
+                              points->m[2][(index+1+steps)% points->lastcol],
+                              points->m[0][(index+steps)% points->lastcol],
+                              points->m[1][(index+steps)% points->lastcol],
+                              points->m[2][(index+steps)% points->lastcol]);
+      }
     }
   }
   free_matrix(points);

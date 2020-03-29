@@ -1,0 +1,19 @@
+torus
+0 0 0 10 170
+display
+#reset torus, rotate to make it look cool
+ident
+move
+-250 -250 0
+rotate
+x 50
+rotate
+y 20
+move
+500 400 0
+sphere
+0 0 0 100
+apply
+display
+save
+planet.png

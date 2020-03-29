@@ -1,9 +1,10 @@
-OBJECTS= main.o draw.o display.o matrix.o parser.o
+OBJECTS= main.o draw.o display.o matrix.o parser.o gmath.o
 CFLAGS= -Wall
 LDFLAGS= -lm
 CC= gcc
 
 run: all
+	./main script2
 	./main script
 
 all: $(OBJECTS)
